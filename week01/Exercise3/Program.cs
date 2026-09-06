@@ -4,28 +4,33 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Core Requirement 1: Ask user for magic number
-        Console.Write("What is the magic number? ");
-        string input = Console.ReadLine();
-        int magicNumber = int.Parse(input);
+        // REQUIREMENT 1: Generate random number from 1 to 100
+        Random randomGenerator = new Random();
+        int magicNumber = randomGenerator.Next(1, 101);
         
-        // Core Requirement 2: Ask user for a guess
-        Console.Write("What is your guess? ");
-        string guessInput = Console.ReadLine();
-        int guess = int.Parse(guessInput);
+        int guess = -1;
         
-        // Core Requirement 3: Determine higher/lower/correct
-        if (guess < magicNumber)
+        // REQUIREMENT 2: Loop until user guesses correctly
+        while (guess != magicNumber)
         {
-            Console.WriteLine("Higher");
-        }
-        else if (guess > magicNumber)
-        {
-            Console.WriteLine("Lower");
-        }
-        else
-        {
-            Console.WriteLine("You guessed it!");
+            // Ask user for a guess
+            Console.Write("What is your guess? ");
+            string guessInput = Console.ReadLine();
+            guess = int.Parse(guessInput);
+            
+            // REQUIREMENT 3: If statement for higher/lower/correct
+            if (guess < magicNumber)
+            {
+                Console.WriteLine("Higher");
+            }
+            else if (guess > magicNumber)
+            {
+                Console.WriteLine("Lower");
+            }
+            else
+            {
+                Console.WriteLine("You guessed it!");
+            }
         }
     }
 }
