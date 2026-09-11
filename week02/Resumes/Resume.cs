@@ -1,10 +1,13 @@
+using System;
+using System.Collections.Generic;
+
 public class Resume
 {
     // Member variables
     public string _name;
     public List<Job> _jobs = new List<Job>();
 
-    // Display method
+    // Display the resume information.
     public void Display()
     {
         Console.WriteLine($"Name: {_name}");

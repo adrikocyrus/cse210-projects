@@ -1,3 +1,5 @@
+using System;
+
 public class Job
 {
     // Member variables
@@ -6,7 +8,7 @@ public class Job
     public int _startYear;
     public int _endYear;
 
-    // Display method
+    // Display the job information.
     public void Display()
     {
         Console.WriteLine($"{_jobTitle} ({_company}) {_startYear}-{_endYear}");
