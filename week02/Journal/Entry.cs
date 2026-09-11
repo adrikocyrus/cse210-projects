@@ -7,6 +7,7 @@ public class Entry
     public string _entryText;
     public string _mood;
 
+    // Displays all information belonging to this journal entry.
     public void Display()
     {
         Console.WriteLine($"Date: {_date}");

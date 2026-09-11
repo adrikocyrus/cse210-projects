@@ -1,5 +1,15 @@
 using System;
 
+/*
+ * EXCEEDING REQUIREMENTS:
+ * 1. Added a "Mood" field to each Entry and display it with the entry.
+ * 2. Added 7 writing prompts instead of the required 5.
+ * 3. Used a custom "~|~" separator when saving entries so commas can
+ *    safely be included in journal responses.
+ * 4. Added graceful handling when a file does not exist during loading.
+ * 5. Added input validation for menu choices and empty filenames.
+ */
+
 class Program
 {
     static void Main(string[] args)
@@ -28,7 +38,6 @@ class Program
 
                     Console.WriteLine($"\n{prompt}");
                     Console.Write("> ");
-
                     string response = Console.ReadLine() ?? "";
 
                     Console.Write("How would you describe your mood? ");
@@ -43,7 +52,7 @@ class Program
 
                     journal.AddEntry(newEntry);
 
-                    Console.WriteLine();
+                    Console.WriteLine("\nEntry added successfully!\n");
                     break;
 
                 case "2":
@@ -53,18 +62,32 @@ class Program
 
                 case "3":
                     Console.Write("What is the filename? ");
-
                     string loadFile = Console.ReadLine() ?? "";
 
-                    journal.LoadFromFile(loadFile);
+                    if (string.IsNullOrWhiteSpace(loadFile))
+                    {
+                        Console.WriteLine("A filename is required.\n");
+                    }
+                    else
+                    {
+                        journal.LoadFromFile(loadFile);
+                    }
+
                     break;
 
                 case "4":
                     Console.Write("What is the filename? ");
-
                     string saveFile = Console.ReadLine() ?? "";
 
-                    journal.SaveToFile(saveFile);
+                    if (string.IsNullOrWhiteSpace(saveFile))
+                    {
+                        Console.WriteLine("A filename is required.\n");
+                    }
+                    else
+                    {
+                        journal.SaveToFile(saveFile);
+                    }
+
                     break;
 
                 case "5":
@@ -73,7 +96,7 @@ class Program
                     break;
 
                 default:
-                    Console.WriteLine("Invalid choice. Please try again.\n");
+                    Console.WriteLine("Invalid choice. Please enter a number from 1 to 5.\n");
                     break;
             }
         }

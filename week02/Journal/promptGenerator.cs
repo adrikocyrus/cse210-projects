@@ -14,6 +14,7 @@ public class PromptGenerator
         "What am I grateful for right now?"
     };
 
+    // Selects and returns a random writing prompt.
     public string GetRandomPrompt()
     {
         Random random = new Random();
