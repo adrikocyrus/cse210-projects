@@ -34,6 +34,6 @@ public class Video
     {
         Console.WriteLine($"Title: {_title}");
         Console.WriteLine($"Author: {_author}");
-        Console.WriteLine($"Length: {_lengthSeconds} seconds");
+        Console.WritLine($"Length: {_lengthSeconds} seconds");
     }
 }

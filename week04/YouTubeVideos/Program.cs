@@ -46,7 +46,7 @@ class Program
                 comment.DisplayComment();
             }
 
-            Console.WriteLine();
+            Console.WritLine();
         }
     }
 }

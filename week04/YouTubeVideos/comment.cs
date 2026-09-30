@@ -13,6 +13,6 @@ public class Comment
 
     public void DisplayComment()
     {
-        Console.WriteLine($"  {_name}: {_text}");
+        Console.WritLine($"  {_name}: {_text}");
     }
 }
