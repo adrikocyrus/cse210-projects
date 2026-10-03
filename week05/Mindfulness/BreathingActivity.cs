@@ -17,15 +17,8 @@ public class BreathingActivity : Activity
         DateTime startTime = DateTime.Now;
         bool breathingIn = true;
 
-        while (GetElapsedSeconds(startTime) < Duration)
+        while (GetRemainingSeconds(startTime) > 0)
         {
-            int remainingSeconds = Duration - GetElapsedSeconds(startTime);
-
-            if (remainingSeconds <= 0)
-            {
-                break;
-            }
-
             Console.WriteLine();
 
             if (breathingIn)
@@ -37,7 +30,7 @@ public class BreathingActivity : Activity
                 Console.Write("Breathe out... ");
             }
 
-            int breathDuration = Math.Min(4, remainingSeconds);
+            int breathDuration = Math.Min(4, GetRemainingSeconds(startTime));
 
             ShowCountdown(breathDuration);
 

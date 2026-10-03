@@ -5,7 +5,8 @@ public class ReflectionActivity : Activity
 {
     private readonly List<string> _prompts;
     private readonly List<string> _questions;
-    private readonly Random _random;
+    private readonly List<string> _remainingPrompts;
+    private readonly List<string> _remainingQuestions;
 
     public ReflectionActivity()
         : base(
@@ -13,8 +14,6 @@ public class ReflectionActivity : Activity
             "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life."
         )
     {
-        _random = new Random();
-
         _prompts = new List<string>
         {
             "Think of a time when you stood up for someone else.",
@@ -35,6 +34,9 @@ public class ReflectionActivity : Activity
             "What did you learn about yourself through this experience?",
             "How can you keep this experience in mind in the future?"
         };
+
+        _remainingPrompts = new List<string>(_prompts);
+        _remainingQuestions = new List<string>(_questions);
     }
 
     public override void Run()
@@ -44,50 +46,34 @@ public class ReflectionActivity : Activity
         Console.WriteLine("Consider the following prompt:");
         Console.WriteLine();
 
-        string prompt = _prompts[_random.Next(_prompts.Count)];
+        string prompt = GetRandomItem(_remainingPrompts, _prompts);
 
         Console.WriteLine($"--- {prompt} ---");
         Console.WriteLine();
-
-        Console.WriteLine(
-            "When you have something in mind, press Enter to continue."
-        );
-
+        Console.WriteLine("When you have something in mind, press Enter to continue.");
         Console.ReadLine();
 
+        Console.WriteLine();
+        Console.WriteLine("Now ponder on each of the following questions as they are related to this experience.");
+        Console.Write("You may begin in: ");
+        ShowCountdown(5);
+        Console.Clear();
+
         DateTime startTime = DateTime.Now;
-
-        List<string> availableQuestions = new List<string>(_questions);
-
         int questionCount = 0;
 
-        while (GetElapsedSeconds(startTime) < Duration)
+        while (GetRemainingSeconds(startTime) > 0)
         {
-            if (availableQuestions.Count == 0)
-            {
-                availableQuestions = new List<string>(_questions);
-            }
-
-            int index = _random.Next(availableQuestions.Count);
-
-            string question = availableQuestions[index];
-
-            availableQuestions.RemoveAt(index);
+            string question = GetRandomItem(_remainingQuestions, _questions);
 
             Console.WriteLine();
-            Console.WriteLine(question);
+            Console.WriteLine($"> {question}");
+            Console.Write("  ");
+
+            ShowSpinner(Math.Min(10, GetRemainingSeconds(startTime)));
+
             Console.WriteLine();
-
-            Console.Write("Reflect on this question... ");
-
-            ShowSpinner(5);
-
             questionCount++;
-
-            if (GetElapsedSeconds(startTime) >= Duration)
-            {
-                break;
-            }
         }
 
         Console.WriteLine();

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class ListingActivity : Activity
 {
     private readonly List<string> _prompts;
-    private readonly Random _random;
+    private readonly List<string> _remainingPrompts;
 
     public ListingActivity()
         : base(
@@ -12,8 +12,6 @@ public class ListingActivity : Activity
             "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area."
         )
     {
-        _random = new Random();
-
         _prompts = new List<string>
         {
             "Who are people that you appreciate?",
@@ -22,6 +20,8 @@ public class ListingActivity : Activity
             "When have you felt the Holy Ghost this month?",
             "Who are some of your personal heroes?"
         };
+
+        _remainingPrompts = new List<string>(_prompts);
     }
 
     public override void Run()
@@ -31,44 +31,46 @@ public class ListingActivity : Activity
         Console.WriteLine("List as many responses as you can to the following prompt:");
         Console.WriteLine();
 
-        string prompt = _prompts[_random.Next(_prompts.Count)];
+        string prompt = GetRandomItem(_remainingPrompts, _prompts);
 
         Console.WriteLine($"--- {prompt} ---");
         Console.WriteLine();
-
-        Console.WriteLine("You will have a few seconds to think about the prompt.");
-        Console.WriteLine();
-
+        Console.Write("You may begin in: ");
         ShowCountdown(5);
 
         Console.WriteLine();
         Console.WriteLine();
-        Console.WriteLine("Start listing items.");
-        Console.WriteLine("Press Enter after each item.");
+        Console.WriteLine("Start listing items. Press Enter after each one.");
         Console.WriteLine();
 
         DateTime startTime = DateTime.Now;
-        int itemCount = 0;
+        List<string> items = new List<string>();
 
-        while (GetElapsedSeconds(startTime) < Duration)
+        while (GetRemainingSeconds(startTime) > 0)
         {
-            Console.Write($"{itemCount + 1}: ");
+            Console.Write($"{items.Count + 1}: ");
 
-            string answer = Console.ReadLine();
+            string answer;
 
-            if (GetElapsedSeconds(startTime) >= Duration)
+            if (!TryReadLine(startTime, out answer))
             {
                 break;
             }
 
             if (!string.IsNullOrWhiteSpace(answer))
             {
-                itemCount++;
+                items.Add(answer.Trim());
             }
         }
 
         Console.WriteLine();
-        Console.WriteLine($"You listed {itemCount} item(s).");
+        Console.WriteLine("Time's up!");
+        Console.WriteLine($"You listed {items.Count} item(s):");
+
+        foreach (string item in items)
+        {
+            Console.WriteLine($"  - {item}");
+        }
 
         DisplayEndingMessage();
     }
